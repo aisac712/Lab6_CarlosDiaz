@@ -60,7 +60,7 @@ public class Cancion {
 
     @Override
     public String toString() {
-        return nombreC +"|"+ puntuación +"|"+ año +"|"+ artista +"|"+ album;
+        return nombreC +";"+ puntuación +";"+ año +";"+ artista +";"+ album;
     }
     
 }

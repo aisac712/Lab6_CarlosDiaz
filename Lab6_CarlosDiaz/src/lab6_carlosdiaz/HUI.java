@@ -5,9 +5,18 @@
  */
 package lab6_carlosdiaz;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -40,8 +49,11 @@ public class HUI extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         ta_playlist = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        jButton3 = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        cb_cancionesCargadas = new javax.swing.JComboBox<>();
+        jButton6 = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
@@ -63,11 +75,8 @@ public class HUI extends javax.swing.JFrame {
         com = new javax.swing.ButtonGroup();
         b_ap = new javax.swing.JButton();
         b_ar = new javax.swing.JButton();
-        b_ar1 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
@@ -93,11 +102,29 @@ public class HUI extends javax.swing.JFrame {
             }
         });
 
-        com.add(jRadioButton1);
-        jRadioButton1.setText("Crear");
+        jButton3.setText("Crear");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
-        com.add(jRadioButton2);
-        jRadioButton2.setText("Modificar");
+        jLabel8.setText("Canciones cargadas");
+
+        cb_cancionesCargadas.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cb_cancionesCargadasItemStateChanged(evt);
+            }
+        });
+
+        jButton6.setText("Modificar canción");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setText("Las podés modificar en el otro combo");
 
         jMenu3.setText("File");
 
@@ -130,14 +157,6 @@ public class HUI extends javax.swing.JFrame {
         jd_playlist.getContentPane().setLayout(jd_playlistLayout);
         jd_playlistLayout.setHorizontalGroup(
             jd_playlistLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_playlistLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28))
-            .addGroup(jd_playlistLayout.createSequentialGroup()
-                .addGap(73, 73, 73)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(187, Short.MAX_VALUE))
             .addGroup(jd_playlistLayout.createSequentialGroup()
                 .addGap(105, 105, 105)
                 .addGroup(jd_playlistLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -147,16 +166,34 @@ public class HUI extends javax.swing.JFrame {
                 .addGroup(jd_playlistLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(tf_nombreP)
                     .addComponent(cb_canciones, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(47, 47, 47)
+                .addComponent(jButton6)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jd_playlistLayout.createSequentialGroup()
+                .addGap(27, 27, 27)
                 .addGroup(jd_playlistLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2))
-                .addGap(152, 152, 152))
+                    .addGroup(jd_playlistLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 688, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jd_playlistLayout.createSequentialGroup()
+                        .addGap(82, 82, 82)
+                        .addGroup(jd_playlistLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jd_playlistLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(99, 99, 99))
+                    .addGroup(jd_playlistLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel9)
+                        .addGroup(jd_playlistLayout.createSequentialGroup()
+                            .addComponent(jLabel8)
+                            .addGap(64, 64, 64)
+                            .addComponent(cb_cancionesCargadas, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))))
         );
         jd_playlistLayout.setVerticalGroup(
             jd_playlistLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jd_playlistLayout.createSequentialGroup()
-                .addGroup(jd_playlistLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(jd_playlistLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jd_playlistLayout.createSequentialGroup()
                         .addGap(50, 50, 50)
                         .addGroup(jd_playlistLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -164,26 +201,35 @@ public class HUI extends javax.swing.JFrame {
                             .addComponent(tf_nombreP, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(63, 63, 63))
                     .addGroup(jd_playlistLayout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addComponent(jRadioButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jRadioButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(70, 70, 70)
                         .addGroup(jd_playlistLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(cb_canciones, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 186, Short.MAX_VALUE)
+                            .addComponent(cb_canciones, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton6))))
+                .addGap(60, 60, 60)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
-                .addComponent(jButton1)
-                .addGap(37, 37, 37))
+                .addGap(61, 61, 61)
+                .addGroup(jd_playlistLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(cb_cancionesCargadas, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel9)
+                .addGap(13, 13, 13)
+                .addGroup(jd_playlistLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton3)
+                    .addComponent(jButton1))
+                .addContainerGap(267, Short.MAX_VALUE))
         );
 
         jLabel3.setText("Nombre");
 
         jLabel4.setText("Puntuación");
 
+        tf_puntuaciofn.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+
         jLabel5.setText("Año");
+
+        tf_anfo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy"))));
 
         jLabel6.setText("Artista");
 
@@ -261,7 +307,7 @@ public class HUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        b_ap.setText("PtlayLists");
+        b_ap.setText("PlayLists");
         b_ap.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 b_apActionPerformed(evt);
@@ -275,24 +321,12 @@ public class HUI extends javax.swing.JFrame {
             }
         });
 
-        b_ar1.setText("Modificar rolita");
-
-        jMenu1.setText("Archivo");
-
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem1.setText("Abrir");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        jButton5.setText("Modificar rolita");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                jButton5ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
-
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem2.setText("Guardar");
-        jMenu1.add(jMenuItem2);
-
-        jMenuBar1.add(jMenu1);
 
         jMenu5.setText("Modificar");
 
@@ -311,56 +345,59 @@ public class HUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(270, Short.MAX_VALUE)
-                .addComponent(b_ap)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(244, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(196, 196, 196)
-                        .addComponent(b_ar))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(187, 187, 187)
-                        .addComponent(b_ar1)))
-                .addGap(269, 269, 269))
+                        .addComponent(b_ap)
+                        .addGap(191, 191, 191)
+                        .addComponent(b_ar)
+                        .addGap(315, 315, 315))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton5)
+                        .addGap(304, 304, 304))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(268, 268, 268)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(b_ar)
-                        .addGap(18, 18, 18)
-                        .addComponent(b_ar1))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(b_ap)
-                        .addGap(23, 23, 23)))
-                .addContainerGap(370, Short.MAX_VALUE))
+                .addGap(288, 288, 288)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(b_ap)
+                    .addComponent(b_ar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton5)
+                .addContainerGap(355, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // CREAR ROLA
-        int puntuacion = Integer.parseInt(tf_puntuaciofn.getText()); 
-        while (puntuacion<0 || puntuacion>10) {     //validación
-            puntuacion = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingrese una puntuación entre 0-10"));
-            //System.out.println(puntuacion);
-        }
-        Cancion c = new Cancion(tf_nombreR.getText(), puntuacion, Integer.parseInt(tf_anfo.getText()), tf_artista.getText(), tf_album.getText());
+        if(tf_nombreR.getText().isEmpty() && tf_puntuaciofn.getText().isEmpty() && tf_anfo.getText().isEmpty() && tf_artista.getText().isEmpty() && tf_album.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "No podés dejar espacios en blanco");
+        } else {
+            if(tf_nombreR.isEnabled()==false){      //para el modificar
+                DefaultComboBoxModel dc = (DefaultComboBoxModel) cb_canciones.getModel();       //añadir cancion al combobox
+                Cancion rola_modificar = (Cancion) dc.getSelectedItem();
+                rola_modificar.setPuntuación(Integer.parseInt(tf_puntuaciofn.getText())); rola_modificar.setAño(Integer.parseInt(tf_anfo.getText())); 
+                rola_modificar.setArtista(tf_artista.getText()); rola_modificar.setAlbum(tf_album.getText());
+                cb_canciones.setModel(dc);
+            } else{                                                                             //si se esta creando, hacer esto
+                int puntuacion = Integer.parseInt(tf_puntuaciofn.getText()); 
+                while (puntuacion<0 || puntuacion>10) {     //validación
+                    puntuacion = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingrese una puntuación entre 0-10"));
+                    //System.out.println(puntuacion);
+                }
+                Cancion c = new Cancion(tf_nombreR.getText(), puntuacion, Integer.parseInt(tf_anfo.getText()), tf_artista.getText(), tf_album.getText());
 
-        tf_nombreR.setText(""); tf_puntuaciofn.setText(""); tf_anfo.setText(""); tf_artista.setText(""); tf_album.setText("");      //limpiar
-        
-        DefaultComboBoxModel dc = (DefaultComboBoxModel) cb_canciones.getModel();       //añadir cancion al combobox
-        dc.addElement(c);
-        cb_canciones.setModel(dc);
-        
+                tf_nombreR.setText(""); tf_puntuaciofn.setText(""); tf_anfo.setText(""); tf_artista.setText(""); tf_album.setText("");      //limpiar
+
+                DefaultComboBoxModel dc = (DefaultComboBoxModel) cb_canciones.getModel();       //añadir cancion al combobox
+                dc.addElement(c);
+                cb_canciones.setModel(dc);
+            }
+        }
         jd_rolita.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -384,32 +421,184 @@ public class HUI extends javax.swing.JFrame {
         // CREAR PLAYLIST
         
         if(tf_nombreP.getText().isEmpty()==false){
-            PlayList p = new PlayList(tf_nombreP.getText());
+            p = new PlayList(tf_nombreP.getText());
             
             if (evt.getStateChange() == 2) {
                 Cancion rola_añadir = (Cancion) cb_canciones.getSelectedItem();
                 p.getRolitas().add(rola_añadir);
-                System.out.println(rola_añadir);
+                //System.out.println(rola_añadir);
                 ta_playlist.setText(ta_playlist.getText() + rola_añadir.toString() + "\n");      //se van colocando las rolitas
-            }  
+            }
         } else{
             JOptionPane.showMessageDialog(this, "Rellena el nombre de la PlayList");
         }
-        
     }//GEN-LAST:event_cb_cancionesItemStateChanged
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // SALIR DEL CREAR PLAYLIST
+        System.out.println(p);
         jd_playlist.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         // ABRIR PLAYLIST
+        
+        File fichero = null; 
+        FileReader fr = null;
+        BufferedReader br = null;
+        
+        /*DefaultTableModel modelo = (DefaultTableModel) tabla_vehiculos1.getModel();
+        tabla_vehiculos.setModel(modelo);   //limpio la table*/
+        
+        try {
+            JFileChooser jfc = new JFileChooser("./");
+            FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos de Texto", "txt");
+            FileNameExtensionFilter filtro2 = new FileNameExtensionFilter("Imagenes", "jpg","png","bmp");
+            jfc.setFileFilter(filtro);
+            jfc.addChoosableFileFilter(filtro2);
+            int seleccion = jfc.showOpenDialog(this);
+            if (seleccion==JFileChooser.APPROVE_OPTION) {
+                fichero = jfc.getSelectedFile();
+                fr = new FileReader(fichero);
+                br = new BufferedReader(fr);
+                String linea;
+                //tabla_vehiculos.setModel(modelo);   //limpio la table
+                ta_playlist.setText("");
+                //fillTextArea();
+                
+                //DefaultTableModel modeloSetear = (DefaultTableModel) tabla_vehiculos.getModel();    //capturo el modelo, que debería de estar vacío
+                while((linea=br.readLine())!=null){
+                    System.out.println(linea);
+                    String t[] = linea.split(";");      //TOKENS separados por ;
+                    //System.out.println(t[0]+" "+t[1]+" "+t[2]+" "+t[3]+" "+t[4]+"\n"); //para comprobar si sirve
+                    /*Object[] newrow = {
+                        t[0],
+                        t[1],
+                        t[2],
+                        t[3],
+                        t[4]
+                    };*/
+                    //modeloSetear.addRow(newrow);
+                    ta_playlist.setText(ta_playlist.getText()+linea+"\n");
+                    String p = t[1];
+                    int puntuacion = Integer.parseInt(p);
+                    String f = t[2];
+                    int ano = Integer.parseInt(f);
+                    System.out.println(p+" "+f);
+                    System.out.println(t[0]+ t[1]+ t[2]+ t[3]+ t[4]);
+                    Cancion rola_cargada = new Cancion(t[0], puntuacion, ano, t[3], t[4]);       //el 1 es la puntuacion y el 2 es el año
+                    
+                    DefaultComboBoxModel dc = (DefaultComboBoxModel) cb_cancionesCargadas.getModel();       //añadir cancion al combobox de cargadas
+                    dc.addElement(rola_cargada);
+                    cb_cancionesCargadas.setModel(dc);
+                    
+                    DefaultComboBoxModel cd = (DefaultComboBoxModel) cb_canciones.getModel();       //añadir cancion al combobox normal
+                    cd.addElement(rola_cargada);
+                    cb_canciones.setModel(cd);
+                    
+                }
+                //tabla_vehiculos.setModel(modeloSetear);     //le seteo el modelo q contiene todas las nuevas rows
+                
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        try {
+            br.close();
+            fr.close();
+        } catch (IOException ex) {
+        }
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        // GUARDARPLAYLIST
+        // GUARDAR PLAYLIST
+        JFileChooser jfc = new JFileChooser("./");
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos de Texto", "txt");
+        jfc.addChoosableFileFilter(filtro);
+        int seleccion = jfc.showSaveDialog(this);
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            try {
+                File fichero = null;
+                if (jfc.getFileFilter().getDescription().equals("Archivos de Texto")) {
+                    fichero = new File(jfc.getSelectedFile().getPath()+".txt");
+                    
+                }else{
+                    fichero = jfc.getSelectedFile();
+                }
+                fw = new FileWriter(fichero);
+                bw = new BufferedWriter(fw);
+                
+                /*for (Vehiculo v : vehiculos) {        PRIMERA FORMA CON EL ARRAYLIST* NO FUNCIONA DEL TODO
+                    bw.write(v.getCodigo() + ";");
+                    bw.write(v.getMarca()+ ";");
+                    bw.write(v.getModelo()+ ";");
+                    bw.write(v.getAno()+ ";");
+                    bw.write(v.getPrecio()+ ";"+"\n");
+                }*/
+                
+                /*for (int i = 0; i < tabla_vehiculos.getRowCount(); i++) {
+                    bw.write((String) tabla_vehiculos.getValueAt(i, 0)+";");
+                    bw.write((String) tabla_vehiculos.getValueAt(i, 1)+";");
+                    bw.write((String) tabla_vehiculos.getValueAt(i, 2)+";");
+                    bw.write((String) tabla_vehiculos.getValueAt(i, 3)+";");
+                    bw.write((String) tabla_vehiculos.getValueAt(i, 4)+";"+"\n");
+                }*/
+                bw.write((String) ta_playlist.getText());   //en el textArea ya lo tenía con formato
+                /*DefaultTableModel modelo = (DefaultTableModel) tabla_vehiculos1.getModel();
+                tabla_vehiculos.setModel(modelo);   //limpio la table*/
+                ta_playlist.setText("");
+                
+                bw.flush();
+                JOptionPane.showMessageDialog(this, "Archivo guardado excitosamente en "+fichero.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            
+            try {
+                bw.close();
+                fw.close();
+            } catch (IOException ex) {
+            }   
+        }
+        
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // CREAR PLAYLISTS
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void cb_cancionesCargadasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cb_cancionesCargadasItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cb_cancionesCargadasItemStateChanged
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // MOSTRAR JD DE MODIFICAR ROLA
+        
+        
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // MODIFICAR CANCIóN SELECCIONADA EN COMBO BOX
+        rola_modificar = (Cancion) cb_canciones.getSelectedItem();
+        nombreRolitaMantener=rola_modificar.getNombreC();
+        System.out.println(nombreRolitaMantener);
+        tf_nombreR.setText(nombreRolitaMantener);
+        tf_nombreR.setEnabled(false);   //para q modifique el nombre
+        
+        jd_rolita.setModal(true);        
+        jd_rolita.pack();
+        jd_rolita.setLocationRelativeTo(this);        
+        jd_rolita.setVisible(true);
+        
+        /*rola_modificar.setPuntuación(Integer.parseInt(tf_puntuaciofn.getText())); rola_modificar.setAño(Integer.parseInt(tf_anfo.getText())); 
+        rola_modificar.setArtista(tf_artista.getText()); rola_modificar.setAlbum(tf_album.getText());*/
+        
+        tf_nombreR.setEnabled(true);
+        jd_rolita.setVisible(false);
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -449,11 +638,14 @@ public class HUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton b_ap;
     private javax.swing.JButton b_ar;
-    private javax.swing.JButton b_ar1;
     private javax.swing.JComboBox<String> cb_canciones;
+    private javax.swing.JComboBox<String> cb_cancionesCargadas;
     private javax.swing.ButtonGroup com;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -461,21 +653,18 @@ public class HUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JMenu jMenu1;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JDialog jd_playlist;
     private javax.swing.JDialog jd_rolita;
@@ -487,4 +676,8 @@ public class HUI extends javax.swing.JFrame {
     private javax.swing.JTextField tf_nombreR;
     private javax.swing.JFormattedTextField tf_puntuaciofn;
     // End of variables declaration//GEN-END:variables
+
+    PlayList p = new PlayList();
+    Cancion rola_modificar = new Cancion();
+    String nombreRolitaMantener;
 }
